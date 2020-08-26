@@ -1,1 +1,8 @@
 ArticleReportInstructions.Rmd
+Readings/BacteriaChapterYustSmythFURMfinal.pdf
+Readings/Complexity_in_public_health_modeling.pdf
+Readings/KermackMckendrick.pdf
+Readings/Lecture_Notes_in_Mathematical_Epidemiology.pdf
+Readings/MathematicalEpidemiologyGreer.pdf
+Readings/SEIRR0.pdf
+Readings/SIRPrimerHannah.pdf

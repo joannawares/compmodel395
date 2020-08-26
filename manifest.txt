@@ -1,2 +1,2 @@
 test.Rmd
-test2.rmd
+test2.Rmd

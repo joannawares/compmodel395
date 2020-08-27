@@ -1,1 +1,4 @@
 ArticleReportInstructions.Rmd 
+3a-ggplotThorton.Rmd
+3b-ggplotWares.Rmd
+CDCNewCasesDates.csv

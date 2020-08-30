@@ -2,3 +2,7 @@ ArticleReportInstructions.Rmd
 3a-ggplotThorton.Rmd
 3b-ggplotWares.Rmd
 CDCNewCasesDates.csv
+4a_PtolemyModeling.Rmd
+4b_Linear_and_Exponential.Rmd
+CDCNewCases.csv
+

@@ -1,0 +1,51 @@
+---
+title: Intro to Modeling
+author: Joanna R. Wares
+date: "`r format(Sys.time(), '%d %B %Y')`" # be so careful with which quotes you are using
+output: html_document
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggrepel)
+#library(smodels)
+
+theme_set(theme_minimal())
+options(pillar.min_character_chars = 15)
+```
+
+Question: Can you name some successful mathematical models? (Here’s an example: F = ma)
+What makes the model successful? 
+
+
+## Two different goals of modeling:
+#. Modeling to make accurate predictions
+#. Modeling to reveal the true mathematical properties underlying a phenomenon
+
+
+Example of a model that achieves goal 1 but fails badly on goal 2
+
+Scientific Question - Can we predict future positions of the planets and the stars?
+
+Ptolemy (Claudius Ptolemaeus AD 83 - c.168) was a Greek astronomer who believed the earth was the center of the universe.  He created a mathematical model that could predict future positions of planets and the sun very accurately for his time - success.
+
+Back in his time, people believed that the earth was the center of the universe and that all the planets and the sun and stars revolved around the earth. They also believed that godly motion was perfectly circular motion and that all movement of the planets and stars must be on perfectly circular trajectories.
+
+Ptolemy created a model of the universe that used perfect circular motion but he had to have circles going around other circles to make it work. His predictions about the locations of the planets and the sun, as they traveled in time, were pretty accurate, but the underlying model did not uncover the real dynamics of planetary motion.
+
+
+Watch the first 4 minutes: [https://www.youtube.com/watch?v=ZGr1nHdzLyk](https://www.youtube.com/watch?v=ZGr1nHdzLyk)
+Watch Ptolemy’s model in action: [https://www.youtube.com/watch?v=2HS3-UgqMmI](https://www.youtube.com/watch?v=2HS3-UgqMmI)
+
+So, this model was successful at making predictions and used for a long time until Copernicus came around and developed a model that centered the sun in the “solar system”:
+
+#. Was much simpler
+#. Made better predictions about planetary motion
+#. Gave scientists a new platform for testing new hypotheses to make predictions
+#. Revealed the true nature of solar system
+
+Let’s do some activities to see how researchers use mathematical and statistical models to make predictions and understand the underlying phenomena that we perceive. The best models achieve both goals 1 and 2 above. 
+
+
+
+

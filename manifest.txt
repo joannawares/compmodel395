@@ -5,4 +5,5 @@ CDCNewCasesDates.csv
 4a_PtolemyModeling.Rmd
 4b_Linear_and_Exponential.Rmd
 CDCNewCases.csv
+3b-ggplotWaresSolutions.Rmd
 

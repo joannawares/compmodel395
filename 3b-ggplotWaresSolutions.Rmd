@@ -1,0 +1,62 @@
+---
+title: Ggplot Short Example
+author: Joanna R. Wares
+date: "`r format(Sys.time(), '%d %B %Y')`" # be so careful with which quotes you are using
+output: html_document
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggrepel)
+#library(smodels)
+
+theme_set(theme_minimal())
+options(pillar.min_character_chars = 15)
+```
+
+
+## Plotting with ggplot
+
+We are going to work with the CDC's new cases data. I've downloaded the new cases data for you 
+with the first reported value (t=1) being March 1, and put it into a csv file called CDCNewCasesDates.csv. 
+You can load it below. The full data can be found [here](https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html)
+
+Load the data with the `read_csv()` function. It will be a dataframe with attributes "Date" and "NewCases."
+You can see the first few rows of it by using the head() function. Use the read_csv() function to create the dataframe "cases"
+```{r cases-data, message=FALSE}
+cases <- read_csv(file.path("CDCNewCasesDates.csv"))
+head(cases)
+```
+
+These are the number of new cases by date in the USA reported early on in the pandemic. 
+
+Now, in the code region below, produce a line plot using  `ggplot()` with `geom_line()` with the date on the x-axis
+and new cases on the y-axis. 
+
+Dr. Arnold has some nice notes that we can use to help us found [here](https://statsmaths.github.io/stat289-f20/notes/02_graphics.html)
+
+```{r new-cases-plot, warning=FALSE}
+  ggplot(cases, aes(x = Date, y = NewCases)) +
+    geom_line()
+```
+
+Notice how the dates aren't being recognized as dates. To get them to be recognized as dates, use the `as.Date()` function around the x assignment and replot. 
+
+```{r total-cases, warning=FALSE}
+  ggplot(cases, aes(x = as.Date(Date), y = NewCases)) +
+    geom_line()
+
+```
+
+This is much better another way to use ggplot is to "pipe" in the data. Here is more information about pipes and there is a lot of r info on this page [https://r4ds.had.co.nz/pipes.html](https://r4ds.had.co.nz/pipes.html). Below is code that produces the same picture as above but with a pipe.
+ 
+Now try to make the same plot but make it blue with a size of 2.
+
+```{r total-cases-plot, warning=FALSE}
+cases %>%
+  ggplot() +
+    geom_line(aes(x = as.Date(Date), y = NewCases),color='blue', size=2)
+
+```
+
+

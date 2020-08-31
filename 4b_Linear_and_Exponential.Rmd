@@ -270,6 +270,7 @@ Question: What are we assuming if we try to use the linear or exponential models
 
 So what we see is that regressions can tell us some information about the current data, but are not great for making predictions unless the dynamics of the system really follow the model chosen to create the regression. However, they can help us to fit parameters for more complicated models. For instance, knowing the exponential growth at the beginning of the data, might tell us something about the complete dynamics even though the exponential growth model is not good for making predictions by itself.
 
+You can see how trying to fit a pre-chosen function to your data can go really wrong for making predictions here [https://www.vox.com/2020/5/8/21250641/kevin-hassett-cubic-model-smoothing](https://www.vox.com/2020/5/8/21250641/kevin-hassett-cubic-model-smoothing)
 
 This is where other types of dynamical models are needed. These other types of models let us make more realistic assumptions about the underlying properties of the system. 
 

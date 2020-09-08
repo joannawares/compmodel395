@@ -1,0 +1,268 @@
+---
+title: "SIR Models and Final Percentage of Infections"
+author: "Joanna R. Wares"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggrepel)
+library(deSolve)
+
+theme_set(theme_minimal())
+options(pillar.min_character_chars = 15)
+```
+
+Let's start this lesson by looking through the beginning of this simulation right up to where they start talking about the S-E-I-R model, so really just the beginning. [https://ncase.me/covid-19/?fbclid=IwAR2_atnrmhsWIqb5odjmN8zEAA4I5wCm-jg6vOe7xPHXel11NiufOW0YptI](https://ncase.me/covid-19/?fbclid=IwAR2_atnrmhsWIqb5odjmN8zEAA4I5wCm-jg6vOe7xPHXel11NiufOW0YptI)
+
+We are going to reproduce some of this and then simulate the S-I-R model.
+
+
+## Differential Equations
+
+We are going to approximate the solutions using the deSolve package. [https://cran.r-project.org/web/packages/deSolve/index.html](https://cran.r-project.org/web/packages/deSolve/index.html)
+
+The library has been included at the top of this file already, but if you were writing your own program, you would need to include that.
+
+We are going to use the `ode` function to solve our system. We first need to setup the parameters into a vector with named values, set the initial values, set the times we want to return, and create the right hand side of the system, vector function to send to the `ode` function. We will walk through all of this. Here is a good example: [https://cran.r-project.org/web/packages/deSolve/vignettes/deSolve.pdf](https://cran.r-project.org/web/packages/deSolve/vignettes/deSolve.pdf)
+
+If you need a refresher on how numerical approximation to differential equations works, here's a good reference [http://faculty.sfasu.edu/judsontw/ode/html-20200801/systems03.html](http://faculty.sfasu.edu/judsontw/ode/html-20200801/systems03.html)
+
+
+
+## Exponential Growth
+
+We are going to start learning to numerically solve differential equations and plot the solutions with everybody's favorite differential equation, the exponential growth and decay equation.
+
+Assumptions:
+#. COVID-19 spreads exponentially forever
+
+Question: What is the trajectory of the disease (Infections over time) if the disease is spreading exponentially?
+
+We will use the following differential equations model. The 0.266 value came from our exponential growth fit in the previous exercise.
+
+\begin{equation}
+\displaystyle \frac{dI}{dt} = 0.266 I
+\end{equation}
+
+And this will be an initial value problem (IVP) because we will assume there is only 1 person in the population who is infected at $t=0$
+
+Question: What is the solution to this initial value problem?
+
+**Answer**
+
+
+## Plot your exponential function
+
+Now, plot the solution of the IVP using `ggplot` from times 0 to 100. Remember that computers cannot represent the number 0.1 accurately, so it is best to use time steps that computers can represent so that we don't get round off error in our simulations. Here we will use the `by` in the `seq` function to set the time steps to 1/4, any multiple of 2 will be good in the denominator since the computer uses a binary representation of numbers.
+
+```{r, warning=FALSE}
+
+```
+
+Question: If this were a model for COVID-19 infections over time, about how many does your model predict at t=100?
+
+**Answer**
+
+## Simulation the IVP
+Even though we know the solution to this equation, let's learn how to simulate and plot the solution. Remember, the solution is the function $I(t)$ whose derivative is given by the differential equation and whose intial value is the same as the one given.
+
+We will do this one together.
+
+## Set Parameters
+
+We only have one parameter in this model, $r$. Let's set $r = 0.266$. We will then add this to a vector of parameters called "parameters" that has names like this (not very exciting naming there). 
+
+```{r, warning=FALSE}
+parameters <- c(r=0.266)
+```
+
+We also need initial values to run our differential equations model. The initial values should be the starting values for each of the dependent variables. Here we only have 1, $I$, and we are going to assume it starts at $I=$. So put this in a vector called "state". 
+
+```{r, warning=FALSE}
+state <- c(I=1)
+```
+
+Next, we need to let the `ode` solver know what differential equation(s) we are trying to solve. We do this by making a function named `exponentialModel` that takes as inputs (t, state, parameters). We will also use the statement `with(as.list(c(state, parameters)),{}) with the differential equations inside of the curly brackets which makes the names of the list availabel to the function.
+
+```{r, warning=FALSE}
+exponentialModel <- function(t, state, parameters){
+  with(as.list(c(state, parameters)), {
+    # put the DEs here
+    dI <- r*I
+    
+    # return the differential equation. This gets called by ode for step of the simulation 
+    list(c(dI))
+  }) # end the with statement
+}
+```
+
+Now let's create the vector of times for which we want the ode function to return values of $I$. Remember that computers cannot represent the number 0.1 accurately, so it is best to use time steps that computers can represent so that we don't get round off error in our simulations. Here we will use the `by` in the `seq` function to set the time steps to 1/4, any multiple of 2 will be good in the denominator since the computer uses a binary representation of numbers.
+
+```{r, warning=FALSE}
+times <- seq(0, 100, by = 1/2^4)
+```
+
+
+Time to solve the DE. It is at this point that you will have had to load the `deSolve` library. We should end up with an approximation to the solution we found above. The plots should be indistinguishable. We are going to use the `ode` function. This will return the times we asked for and a vector for each of the dependent variable values at those times.
+
+Solve the IVP and print the begining of the results using the `head` function.
+
+```{r, warning=FALSE}
+expOut <- ode(y=state, times = times, func = exponentialModel, parms = parameters)
+head(expOut)
+```
+
+Now plot your solution from solving the DE using `ggplot`. You need to use `as.data.frame` on your output from the ode call to turn your result into a dataframe that ggplot will understand.
+
+```{r, warning=FALSE}
+ggplot(as.data.frame(expOut), aes(x=time, y=I)) + geom_line(color="red", size=1)
+```
+
+Question: Does this model give you the expected output? Why?
+
+**Answer**
+
+Question: Is an exponential growth model realistic? Why not?
+
+**Answer**
+
+
+## Removal Rate
+
+If you think about the transition from infected to removed in the S-I-R model that we discussed in the last class, it is the same equation as above, except the rate is negative because people are exiting the infected compartment. Let's do a similar exercise as above to see what the decay from infected to removed looks like.
+
+Assumptions:
+#. All people are infected
+#. There are 1 million people to start (all infected)
+#. Cases are decaying exponentially
+#. People stay infected for 14 days on average so they exit the infected state at a rate of $\delta = 1/14$.
+
+We want to see what this looks like dynamically so we are solving the IVP:
+
+\begin{equation}
+\displaystyle \frac{dI}{dt} = -1/14 I
+\end{equation}
+
+with $I(0)=1000000$. Redo what you did above for this new IVP and plot the solution to this new IVP to determine the dynamics of how cases decay under the assumptions of this model. Notice that you don't have to setup the function again because it is the same. All that has changed is the inital condition and the parameter.
+
+```{r, warning=FALSE}
+```
+
+Question: At about what time are almost all of the people removed?
+
+**Answer**
+
+Question: Why isn't the answer to the above question 14 days?
+
+**Answer**
+
+## S-I-R Models
+
+We know that epidemics don't grow exponentially forever. one reason for this is that infected people can't spread the disease as fast when some of the people are infected or immune to the disease. So as more people become infected or immune, the spread of the disease slows. We can model this dynamics using the S-I-R model. 
+
+We have been reading and hearing about S-I-R models in class. Now we are going to try to simulate one and ask some first questions about the results.
+
+Let's write down our assumptions
+#. Everyone in the simulation is either Susceptible (S), Infected (I), or Removed (R), so we will have 3 dependent variables now, and will need an initial condition for each.
+#. Each group of people is homogeneous, we are not going to be concerned with age or co-morbidities or anything else
+#. The population size is constant, $N$
+#. At first, we aren't going to consider death out of the infected state.
+#. Transmission happens at rate $\beta$
+
+
+First let's set the parameters. We need to set
+#. The total size of the population at a million
+#. Let's assume that people are infectious for 14 days. That means their exit rate from I to R at a rate of $\gamma = 1/14$. Beta is hard to fit properly. Let's set those parameters.
+```{r cases-data, message=FALSE}
+```
+
+As we saw in the lecture about S-I-R models, we can estimate the basic reproductive ratio, $R_0$, can be calculated as $\frac{\beta N}{\gamma}$. Some people made early estimates for the $R_0$ for COVID-19 without interventions to be around 2.5. Let's estimate $\beta$ making the assumption that $R_0$ is 2.5 using the equation for $R_0$.
+
+```{r, warning=FALSE}
+```
+Question: What is your beta value?
+
+**Answer
+
+
+## Differential Equations
+
+To determine the number of people that are susceptible $S(t)$, infected $I(t)$, or removed $R(t)$ over time, we need to simulate the differential equations with specific intial conditions. We are
+
+Let's write down our IVP:
+
+\begin{align}
+\displaystyle\frac{dS}{dt} &= - \beta S I\\
+\displaystyle\frac{dI}{dt} &=  \beta S I - \gamma I\\
+\displaystyle\frac{dR}{dt} &= \gamma I
+\end{align}
+where $N = S+I+R$. We will use initial conditions of $S=999,999$, $I=1$, $R=0$.
+
+So first, let's set up our parameters vector using the `c` function and naming the parameters into the vector `parameters` again. Look in the example above for syntax. Put, $\beta$ and $\gamma$ in there since those are the parameters that are in our model.
+
+```{r, warning = FALSE}
+```
+
+Now let's set our initial values into the vector `state.`
+
+```{r, warning = FALSE}
+```
+
+Let's use time from 0 to 100 with a timestep of $\frac{1}{2^4}$ for our output.
+
+```{r, warning = FALSE}
+```
+
+Now we need to setup our function `SIRModel` that contains our differential equations. Put each right hand side equation of the differential equations system on a new line. Make sure to return all three differential equations, $dS$, $dI$, and $dR$.
+
+```{r, warning=FALSE}
+```
+
+Now we are ready to simulate our model. Find approximate solutions for $S(t)$, $I(t)$, and $R(t)$ using the `ode` function and name it SIROut. Then plot the number of infected people $I$ vs t using `ggplot.` 
+
+```{r, warning=FALSE}
+```
+
+Question: What type of function does this look like?
+
+**Answer**
+
+Question: How does the predicted value at $t=100$ differ from your exponential growth model?
+
+**Answer**
+
+Now solve and plot the solution for $I(t)$ for times 0 to 250 days.
+
+```{r, warning = FALSE}
+```
+
+Question: How has the shape of the trajectory changed?
+
+**Answer**
+
+Question: What do you think is the difference between this and the exponential model dynamics? How do the parameters affect the outcome?
+
+Finally, plot all three trajectories $S(t)$, $I(t)$, and $R(t)$ for $0 \le t \le 250$ on the same plot. Color them all differently.
+
+```{r, warning = FALSE}
+```
+
+Question: What curve are we talking about when we talk about the "Flatten the Curve" plots?
+
+**Answer**
+
+Question: About how many people eventually get infected in this simulation?
+
+**Answer**
+
+Question: Why doesn't everyone eventually get infected?
+
+**Answer**
+
+Question: How would you include mask usage into this model?
+
+**Answer**

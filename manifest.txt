@@ -6,4 +6,4 @@ CDCNewCasesDates.csv
 4b_Linear_and_Exponential.Rmd
 CDCNewCases.csv
 3b-ggplotWaresSolutions.Rmd
-
+5_SIR_FinalSize.Rmd

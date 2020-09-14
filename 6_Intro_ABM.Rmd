@@ -34,3 +34,5 @@ What your pdf should contain:
 #. A flow diagram of the Go procedure.
 #. An explanation of how to create the plots in the GUI.
 #. Finally, a few questions at the end of the document that you could answer using this model.
+
+To do this, you will need to look up what a lot of the syntax and wording of the NetLogo code. You can test it by changing the code in the NetLogo file and seeing if what you think should happen does happen when you change it. Documentation can be found here: [https://ccl.northwestern.edu/netlogo/docs/](https://ccl.northwestern.edu/netlogo/docs/) but it is also easier to just search a particular term with NetLogo next to it.

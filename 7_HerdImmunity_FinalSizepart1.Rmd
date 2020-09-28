@@ -163,7 +163,11 @@ as.data.frame(SIROut) %>% ggplot() + geom_line(aes(x=time, y=I), color="red", si
 
 Let's call the case above, CASE 1. In CASE 1, an infection enters a population where no one has been infected or vaccinated against infection.
 
-Question: Using the parameters that we have set for transmission and removal, approximately what percentage of the total population that becomes infected over 250 days? How do you know?
+Question: Approximately how many people were infected at the peak of the infection curve?
+
+**Answer**: 
+
+Question: Using the parameters that we have set for transmission and removal, approximately what percentage of the total population becomes infected over 250 days? How do you know?
 
 **Answer**: 
 
@@ -179,7 +183,7 @@ There are many assumptions being made here that don't hold for Sars-CoV-2 as it 
 ## Herd Immunity Percentages
 So far for Sars-CoV-2, there is no vaccine. So we have to recognize that when people are talking about herd immunity, they are talking about people becoming immune AFTER getting infected. Many of these people will be symptomatic and also many will die. 
 
-Let's see how large the herd immunity threshold is to prevent an epidemic from occuring while keeping the parameters the same.
+Let's see how large the herd immunity threshold is to prevent an epidemic from occuring while keeping the parameters the same as in CASE 1.
 
 ## CASE 2
 

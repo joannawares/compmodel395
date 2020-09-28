@@ -278,12 +278,12 @@ Question: What is the herd immunity threshold in terms of the parameters (don't 
 
 ## Testing the Herd Immunity Equation
 
-Now set the amount of people in recovered to the herd immunity threshold, the rest but 1 in susceptible and 1 infected.
+Now set the amount of people in recovered to the amount necessary for herd immunity, the rest but 1 in susceptible and 1 infected.
 
 ```{r, warning = FALSE}
 ```
 
-Question: What did you expect to happen when you put in the herd immunity threshold in the recovered group at $t=0$? Did it happen?
+Question: What did you expect to happen when you put in the herd immunity threshold for susceptibles at $t=0$? Did it happen?
 
 **Answer**:
 
@@ -292,30 +292,25 @@ Question: Which case above fits with this as well?
 **Answer**:
 
 
-# Less Than
+# More Susceptibles
 
-Put in less people into the recovered group than needed for herd immunity and plot the three dependent variables over time.
+Put in more people into the susceptible group than needed for herd immunity and plot the three dependent variables over time.
 ```{r, warning = FALSE}
 
 ```
 
-Question: What did you expect to happen when you put more people in the recovered group at $t=0$ than needed for herd immunity? Did it happen?
+Question: What did you expect to happen when you put more people in the susceptible group at $t=0$ than needed for herd immunity? Did it happen?
 
 **Answer**:
 
 Question: Which case above fits with this as well?
-
-**Answer**:
-
-
-Question: So what percentage of people get infected for these parameters if only one person is infected at t=0?
 
 
 **Answer**:
 
 
 ## Summary
-Write a summary about what you have learned about herd immunity here and how it relates to $R_0$ and therefore $\beta$ and $\gamma$. In particular, why do you think more people in CASES 1 and 2 became infected than the herd immunity size?
+Write a summary about what you have learned about herd immunity here and how it relates to $R_0$ and therefore $\beta$ and $\gamma$. In particular, why do you think more people in CASES 1 and 2 became infected than the herd immunity size? We will explore this more in part 2.
 
 **Answer**
 

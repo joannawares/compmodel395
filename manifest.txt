@@ -11,4 +11,6 @@ CDCNewCases.csv
 ABMProject.pdf
 SIR_Model_-_COVID19.nlogo
 7_HerdImmunity_FinalSizepart1.Rmd
+7_HerdImmunity_FinalSizeSolutionpart2.Rmd
+
 

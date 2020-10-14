@@ -1,5 +1,5 @@
 ---
-title: "Herd Immunity Final Percentage of Infections Part 2"
+title: "Herd Immunity and Final Percentage of Infections Part 2"
 author: "Joanna R. Wares"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
@@ -159,19 +159,6 @@ as.data.frame(SIROut) %>% ggplot() + geom_line(aes(x=time, y=I), color="red", si
 
 ### Herd Immunity
 
-## CASE 1 - Everyone is Susceptible
-
-Let's call the case above, CASE 1. In CASE 1, an infection enters a population where no one has been infected or vaccinated against infection.
-
-Question: Approximately how many people were infected at the peak of the infection curve?
-
-**Answer**: 
-
-Question: Using the parameters that we have set for transmission and removal, approximately what percentage of the total population that becomes infected over 250 days? How do you know?
-
-**Answer**: 
-
-## Herd Immunity Intro
 
 Usually, when we discuss herd immunity, it is in the context of a vaccine. Vaccine's confer immunity against viruses without the people having to get infected and sick. The main idea behind herd immunity is that if we vaccinate enough people in a population (the herd immunity threshold percentage) then if one person enters the population with the disease, it will not spread fast enough to cause infection numbers to rise because most of the contacts that the infected person makes over the life of their infection will be with people who have immunity. This is helpful beyond just stopping the people who get vaccinated from getting sick, some people cannot get vaccinated, and so by having the ``herd'' be immunized, vulnerable people are protected.
 
@@ -185,167 +172,7 @@ So far for Sars-CoV-2, there is no vaccine. So we have to recognize that when pe
 
 Let's see how large the herd immunity threshold is to prevent an epidemic from occuring while keeping the parameters the same as in CASE 1.
 
-## CASE 2
 
-Now let's change the initial conditions so that (half-1) of the total population (1 million) is suseptible and half is removed and only 1 is infected and see what happens. 
-
-Set the new state variables
-```{r, warning = FALSE}
-state <- c(S=499999, 
-           I=1,
-           R=500000)
-```
-
-Now find the numerical solution to the equations over 1000 days and plot infected function over time.
-```{r, warning = FALSE}
-times <- seq(0, 1000, by = 1/2^4)
-SIROut <- ode(y=state, times = times, func = SIRModel, parms = parameters)
-head(SIROut)
-ggplot(as.data.frame(SIROut), aes(x=time, y=I)) + geom_line(color="red", size=1)
-```
-
-Question: About how many infections are there at the peak?
-
-**Answer**: 
-
-Quesiton: How would you approximate the total number of infections from this plot? About how many infections do you think happen over the 1000 days?
-
-**Answer**:
-
-Now, plot all three dependent variable functions together.
-```{r, warning = FALSE}
-times <- seq(0, 100, by = 1/2^4)
-as.data.frame(SIROut) %>% ggplot() + geom_line(aes(x=time, y=I), color="red", size=1) + geom_line(aes(x=time, y=S), color="blue", size=1) + geom_line(aes(x=time, y=R), color="green", size=1) + ylim(0,1000000)
-```
-
-Question: Was your guess at how many were infected over the time period close? How can you tell from these plots?
-
-**Answer**:
-
-Question: Was the total amount of people infected different from CASE 1? If so, why do you think?
-
-## CASE 3 - Change the Initial Conditions again
-
-Now let's do the same exercise before but let's start with different inital conditions.
-
-Now let's change the initial conditions so that (30 percent - 1) of the population (1 million) is suseptible and 70 percent is removed and only 1 is infected and see what happens.
-
-Set the new state variables
-```{r, warning = FALSE}
-state <- c(S=299999, 
-           I=1,
-           R=700000)
-```
-
-Now find the numerical solution to the equations over 1000 days and plot infected function over time.
-```{r, warning = FALSE}
-times <- seq(0, 1000, by = 1/2^4)
-SIROut <- ode(y=state, times = times, func = SIRModel, parms = parameters)
-head(SIROut)
-ggplot(as.data.frame(SIROut), aes(x=time, y=I)) + geom_line(color="red", size=1)
-```
-
-Let's think about this case.
-
-Question: How were the parameters for transmission and removal rates changed?
-
-**Answer**:
-
-Question: What happens to the number of infected people over time?
-
-**Answer**:
-
-
-Plot all three trajectories for the dependent variables.
-```{r, warning = FALSE}
-times <- seq(0, 100, by = 1/2^4)
-as.data.frame(SIROut) %>% ggplot() + geom_line(aes(x=time, y=I), color="red", size=1) + geom_line(aes(x=time, y=S), color="blue", size=1) + geom_line(aes(x=time, y=R), color="green", size=1) + ylim(0,1000000)
-```
-
-Question: Was the total amount of people infected different from CASE 1 and 2? If so, why do you think?
-
-
-## Herd Immunity
-Herd immunity is defined as the percentage of people that need to be immune in a population so that infection numbers don't increase if one person enters the population infected. 
-
-Let's try to find the herd immunity percentage threshold. One thing we can do is look at the infection rate differential equation.
-
-
-\begin{equation}
-\displaystyle\frac{dI}{dt} =  \beta S I - \gamma I
-\end{equation}
-
-Remember when we set this up in the S-I-R slides, that we hid $N$ in $\beta$. Or another way to see this is 
-
-\begin{equation}
-\beta = \displaystyle\frac{R_0 \gamma}{N}
-\end{equation}
-
-So to find the herd immunity threshold, we can figure out what proportion of $N$ $S$ should be to make $\displaystyle\frac{dI}{dt} < 0$. Here we assume that all but 1 of the other people are recovered.
-
-Question: What is the herd immunity threshold in terms of the parameters (don't plug in actual numbers yet.)?
-
-**Answer**: 
-
-## Testing the Herd Immunity Equation
-
-Now set the amount of people in recovered to the amount necessary for herd immunity, the rest but 1 in susceptible and 1 infected.
-
-
-```{r, warning = FALSE}
-state <- c(S=399999, 
-           I=1,
-           R=600000)
-
-times <- seq(0, 1000, by = 1/2^4)
-SIROut <- ode(y=state, times = times, func = SIRModel, parms = parameters)
-head(SIROut)
-ggplot(as.data.frame(SIROut), aes(x=time, y=I)) + geom_line(color="red", size=1)
-
-times <- seq(0, 100, by = 1/2^4)
-as.data.frame(SIROut) %>% ggplot() + geom_line(aes(x=time, y=I), color="red", size=1) + geom_line(aes(x=time, y=S), color="blue", size=1) + geom_line(aes(x=time, y=R), color="green", size=1) + ylim(0,1000000)
-```
-
-Question: What did you expect to happen when you put in the herd immunity threshold for susceptibles at $t=0$? Did it happen?
-
-**Answer**:
-
-Question: Which case above fits with this as well?
-
-**Answer**:
-
-
-# More Susceptibles
-
-Put in more people into the susceptible group than needed for herd immunity and plot the three dependent variables over time.
-```{r, warning = FALSE}
-state <- c(S=500000, 
-           I=1,
-           R=499999)
-
-times <- seq(0, 1000, by = 1/2^4)
-SIROut <- ode(y=state, times = times, func = SIRModel, parms = parameters)
-head(SIROut)
-ggplot(as.data.frame(SIROut), aes(x=time, y=I)) + geom_line(color="red", size=1)
-
-times <- seq(0, 100, by = 1/2^4)
-as.data.frame(SIROut) %>% ggplot() + geom_line(aes(x=time, y=I), color="red", size=1) + geom_line(aes(x=time, y=S), color="blue", size=1) + geom_line(aes(x=time, y=R), color="green", size=1) + ylim(0,1000000)
-```
-
-Question: What did you expect to happen when you put more people in the susceptible group at $t=0$ than needed for herd immunity? Did it happen?
-
-**Answer**:
-
-Question: Which case above fits with this as well?
-
-
-**Answer**:
-
-
-## Summary
-Write a summary about what you have learned about herd immunity here and how it relates to $R_0$ and therefore $\beta$ and $\gamma$. In particular, why do you think more people in CASES 1 and 2 became infected than the herd immunity size? We will explore this more in part 2.
-
-**Answer**
 
 ## Final Size of the Population that Becomes Infected
 
@@ -380,29 +207,14 @@ Question: How many people were infected when we reached herd immunity levels of 
 Go back and look at the plots to try to understand what is happening.
 
 ```{r, warning = FALSE}
-state <- c(S=999999, 
-           I=1,
-           R=0)
 
-times <- seq(0, 1000, by = 1/2^4)
-SIROut <- ode(y=state, times = times, func = SIRModel, parms = parameters)
-
-herd_infected_index <- which.max(as.data.frame(SIROut)$S < 400000)
-herd_infected_index
-
-
-herd_infected1 <- as.data.frame(SIROut)$I[herd_infected_index]
-herd_infected1
-
-print(which(as.data.frame(SIROut)$I == max(as.data.frame(SIROut)$I)))
 
 ```
 
 Question: On which day of this simulation did we reach the herd immunity threshold of susceptible people?
 
 ```{r, warning = FALSE}
-herd_day <- herd_infected_index/2^4 
-herd_day
+
 ```
 
 **Answer**
@@ -417,7 +229,7 @@ Question: How many were Recovered at this time?
 **Answer**
 
 ```{r, warning = FALSE}
-print(as.data.frame(SIROut)$R[herd_infected_index])
+
 ```
 
 
@@ -432,7 +244,6 @@ Now find the maximum number of people infected at any time and find the index of
 
 
 ```{r, warning = FALSE}
-print(which(as.data.frame(SIROut)$I == max(as.data.frame(SIROut)$I)))
 ```
 
 
@@ -444,8 +255,7 @@ Question: How does the max infection index related to the index of when the numb
 Question: How many people had been infected by the end of this simulation? Save this into a variable called final_infected1 and then print it. Do this by using some R code not by just looking at it. You might need the `tail()` function.
 
 ```{r, warning = FALSE}
-final_infected1 <- tail(as.data.frame(SIROut)$R,1)
-final_infected1
+
 ```
 
 Question: If reaching herd immunity meant no one else would get infected, how many people should have been infected in the final count? 
@@ -465,7 +275,6 @@ Question: What is your assessment about herd immunity as a way to prevent diseas
 
 **Answer**:
 
-
 ## Interventions
 
 Now let's think about flattening the curve. Our question is, what happens to the final size of the pandemic if can change transmission rates by various interventions such as wearing masks, or isolating, interventions that reduce contact rates and reduce likelihood of transmission.
@@ -475,8 +284,7 @@ In Case 1, we found that $\beta = 1.785714*10^{-7}$. Now let's assume that we co
 Question: Assuming $N$ and $\gamma$ stay the same, what range of values of $\beta$ will keep $R_0 > 1$? (Recall that $R_0 = \frac{\beta N}{\gamma}$.)
 
 ```{r, warning = FALSE}
-beta <- gamma/N
-beta
+
 ```
 
 **Answer**: 
@@ -484,8 +292,7 @@ beta
 Let's choose $\beta$ so that $R_0 = 1.5$. We will assume that our interventions lowered $R_0$ to this value. Set $\beta$ here.
 
 ```{r, warning = FALSE}
-beta <- 1.5*gamma/N
-beta
+
 ```
 
 ## Herd Immunity 
@@ -493,8 +300,7 @@ beta
 Find the herd immunity susceptible threshold for these new parameters.
 
 ```{r, warning = FALSE}
-herd_S <- 1/1.5
-herd_S
+
 ```
 
 Question: If there wasn't a raging pandemic, and only 1 person was entering the population infected, how many people would you expect to be recovered at the herd immunity level?
@@ -511,17 +317,6 @@ If we assume that there is no vaccine and that the herd immunity threshold is re
 
 
 ```{r, warning = FALSE}
-state <- c(S=999999, 
-           I=1,
-           R=0)
-parameters <- c(gamma = gamma, beta = beta)
-
-times <- seq(0, 1000, by = 1/2^4)
-SIROut <- ode(y=state, times = times, func = SIRModel, parms = parameters)
-
-
-final_infected2 <- tail(as.data.frame(SIROut)$R,1)
-final_infected2
 
 ```
 

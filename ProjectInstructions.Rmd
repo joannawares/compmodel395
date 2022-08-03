@@ -1,0 +1,70 @@
+---
+title: "Project Instructions"
+author: "Joanna R. Wares"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggrepel)
+#library(smodels)
+
+theme_set(theme_minimal())
+options(pillar.min_character_chars = 15)
+```
+
+## Overview
+
+In this project, you will try to answer a question about COVID-19 by creating either a differential equations model or agent-based model by extending one that we have studied in class. You will then use your model to answer a question that you have about COVID-19. Creating your own model will help you learn how to characterize relationships in the world, and, in particular, how to capture the essence of those relationships. You can use your model to answer questions or make predictions about the future. During this semester, you will also learn how to present ideas clearly by creating presentations about other models and results and letting these guide your work on creating your own project.
+
+The modeling project should be fun, useful and educational. It will be a group effort, so some organizational and management skills will be required. These
+skills are necessary for success in our world, and therefore worth developing.
+
+
+Preparatory Work:
+
+Watch the [video](https://www.youtube.com/watch?v=NKMHhm2Zbkw&t=593s). Notice how he describes the assumptions, model, and the questions he is trying to answer.
+
+You must choose your idea and start formulating your idea in the first month of classes. Each group will present their ideas to the class at two different times in the semester. The first presentation will occur when you are part way through the project and is called the "pitch presentation." In the pitch presentation, you want to toss your idea around with the class and get input to adjust your model. The second presentation is the final presentation at the end of the semester.
+
+Directions: 
+
+Find a topic that interests you about COVID-19. It would be good if you found a data source, or an article of interest that inspires you to ask a new question. The idea is to build a DE or ABM Model that will help you answer this question. Extending a previously created model counts as creating a model, but you need to add something new. The something new might be the data set and finding parameters that match the data set well. 
+
+Remember, there are many types of mathematical and statistical modeling techniques that are useful, but this idea should be able to be addressed with a DE or ABM model, so make sure your question can be answered with one of these techniques. If you are well educated in statistical techniques, you can also do a study that centers statistical modeling, but I won't be able to help you as much with that project.
+
+Your final product will be a presentation for the class describing your question, model, and results. The presentations can be video or slides.
+
+
+## The pitch presentation should include:
+
+#. A description of the your question and why it is important or interesting with citations
+#. Any data source you plan to use
+#. A list of the variables included in the model (distinguishing between dependent/independent variables)
+#. A list of parameters. (Variables and parameters are different.)
+#. A description of the assumptions you are thinking about including in the model (why you included or left out pieces)
+#. A compartmental diagram or some sort of flow diagram for the ABM when appropriate
+#. Questions you will try to answer using the model
+
+
+Note that the pitch presentation does not include model formulation. That is in the final presentation. You should take feedback from the class to help you develop your model for the final project.
+
+## Final Presentation
+Along with all of the items from the pitch presentation add the following
+
+#. The main point of this is to tell a story about your project. One way to do this is to think about how you would explain it to someone as if you are on a job interview. The presentation should be centered around your story.
+#. Limitations of the model based on the assumptions you made and how they could be improved for future work
+#. Your model description.
+#. Explain your initial conditions and parameter values.
+#. Explanation of your experiments/simulations.
+#. Results
+#. Conclusion
+#. Citations
+
+Extra credit will be given for real attempts at using real data and parameterizing the model well.
+
+
+

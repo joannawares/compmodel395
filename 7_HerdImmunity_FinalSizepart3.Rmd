@@ -1,0 +1,94 @@
+---
+title: "Herd Immunity Final Percentage of Infections Part 3"
+author: "Joanna R. Wares"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggrepel)
+library(deSolve)
+
+
+theme_set(theme_minimal())
+options(pillar.min_character_chars = 15)
+```
+## Herd Immunity
+
+Recently Pfizer announced that they have created a vaccine that has 90% efficacy. This is great news for herd immunity, because we will be able to move people from the susceptible category to the recovered category without them getting infected with the virus first! So now we can start thinking about the final number of people that get infected in this pandemic with the inclusion of a vaccine.
+
+As a final exercise about herd immunity, let's try to replicate our results and understanding inside of netlogo and also think about the vaccine, starting with the file `SIR_Model_-_COVID19.nlogo`
+
+I saved mine under as a newfile named `SIR_ModelHerd.nlogo` so that when I edit it, I still have the old file.
+
+It's easier if you start with more than 1 infected person, I used 2, but you might want to use 3 or more to make the initial stochastic event of losing that infection less important.
+
+## Questions about the baseline model
+
+Let's see what's happening with this model before we change it.
+
+Question: In the standard set up and go procedure, with baseline parameters of transmission being 0.6 and recovery being 0.1, what proportion of the population becomes infected over time?
+
+**Answer**
+
+We know that the $R_0$ value is dependent on the transmission rate and the recover rate (increases with increasing transmission rate and decreases with increasing recovery rate)
+
+Question: What happens to the total number of people that become infected if you increase the recovery rate to $0.5$?
+
+**Answer**
+
+Question: Run the model again with the same parameters? Did you get the exact same result? Why do you think this is?
+
+**Answer**
+
+It looks like this is set up as a 50x50 grid, so that it has 2500 units$^2$ area. People infect others in a radius of 1 around them, so in $\pi/2500$ of the area. There are 500 people randomly in the grid. So they come into contact with on average $\pi*500/2500$ people each time step, so about 0.63 people per time step. 
+
+Question: How would you calculate $R_0$ knowing this?
+
+
+
+**Answer**
+
+If we choose parameters such that $R_0$ is much larger than 1, we should expect an outbreak each time. If we choose parameters such that $R_0$ < 1, most of the time there will be no outbreak (but a small number of people will still be infected.)
+
+
+## Extending the model
+
+
+Let's look how the outbreak potential changes if we start with different numbers of people vaccinated, in this case recovered.
+
+
+We first need to be able to change the number of people that are removed at the beginning of the experiment.
+
+#. Create a slider and call the parameter init-recovered that ranges between 0 and 500
+#. Change the code so that the number of people initially recovered equals the amount in the slider. Make sure to make them immune and not infected.
+#. Create a function setup-recovered to do this and call this in the setup procedure.
+
+Question: What do you expect to happen as you increase the amount of people that have been vaccinated and start off in the init-recovered group?
+
+**Answer**
+
+Rerun the simulation again with transmission at 0.6 and recovery at 0.1.
+
+Question: With these parameters, what number of people do you expect to need to be vaccinated (initially recovered) to have herd immunity (and therefore shouldn't see an outbreak)? Remember that herd immunity proportion of recovered is $1-1/R_0$.
+
+**Answer**
+
+Question: Run the experiment multiple times with the same transmission and recovery rate and varying the number of people init-recovered (run multiple times for each choice of parameters). Explain your results and if you are seeing what you expect to see.
+
+**Answer**
+
+Question: Explain how the final size of the outbreak is dependent on the number of people that are initially-recovered (vaccinated).
+
+**Answer**
+
+Question: Explain how the final size of the outbreak is also dependent on the number of people that are initially infected (like we saw in the previous exercise). This means if we are vaccinating people in the middle of a raging pandemic when a ton of people are already infected, we will have different results than if we vaccinate a totally susceptible population.
+
+**Answer**
+
+Question: Do you find it harder or easier to understand what is happening with herd immunity in this stochastic environment or in the differential equations deterministic environment?
+
+**Answer**

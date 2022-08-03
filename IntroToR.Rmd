@@ -1,0 +1,152 @@
+---
+title: Intro to R and R Markdown
+author: Joanna R. Wares adapted from Taylor Arnold
+date: "`r format(Sys.time(), '%d %B %Y')`" # be so careful with which quotes you are using
+output: html_document
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggrepel)
+#library(smodels)
+
+theme_set(theme_minimal())
+options(pillar.min_character_chars = 15)
+```
+
+## Instructions
+
+This notebook includes several tasks to practice and extend your knowledge of
+the material covered within the chapter. For the most part, every notebook with
+a name ended in "A" will work with a collection of data about cities and their
+population. The questions tend to be relatively contained; the focus is
+primarily on writing code to perform a specific task. For this purpose there
+will usually be an empty code block for you to put your code. There are also
+questions requiring a short response, prompted by the phrase "**Answer:**".
+Your answers to these can be write directly in this notebook. Occasionally
+new functions or concepts will be shown within each notebook.
+
+When you are done with your code, hitting the *knit* button in the toolbar will
+produce an HTML webpage with all of your results. Note that the first time you
+run the knit function may require installing some packages. Knitting your code
+is a good way to help check that you have written all of the code correctly and
+have not accidentally modified anything as you worked through the notebook.
+
+Two important pieces of advice when working through the notebooks:
+
+- It is a best practice to close RStudio every time that you finish with a
+notebook and before you start working on another dataset. This starts each
+notebook from scratch and does not risk accidentally using variables created in
+one notebook within the scope of another.
+
+- Notice that the notebook file does not automatically word-wrap the way you
+may be used to in a word processor. Generally, you should manually hit enter to
+start typing on a new line. I try to make sure that both my text and my code are
+not very wide. Make sure to do the same with your code and responses. Also, make
+sure that your notebook window is wide enough so that my text does not forceable
+try to wrap. This is very hard to read and makes it much easier to work through
+the notebook.
+
+## Running R Code
+
+In the code block below, divide the number 57 by 3.
+
+```{r}
+57 / 3
+```
+
+Question: Is the number 57 a prime number? **Answer**:
+
+In the code block below, make a variable named `fav_number` and set it equal to
+your favorite number. In R, you set variables with "<-" instead of "=" although "=" still works. When you are setting parameters in a function, you use "=". For more on this see this [post](vhttps://stackoverflow.com/questions/1741820/what-are-the-differences-between-and-assignment-operators-in-r)
+
+(Note, the quotes are not part of the variable name).
+
+```{r}
+
+```
+
+Search for documentation on "log" and figure out the different arguments it takes 
+and how to enter them.
+In the code below, apply the function `log` to your favorite number and assign that to a new 
+variable called newLog. (Again, the
+quotes are not part of the function name). Then do that with base 10.
+
+```{r}
+
+```
+
+Question: What is the default base of `log`
+
+**Answer**:
+
+
+Note that the only point of the exercises here are to familiarize you with running
+code in R, creating variables, and applying functions. To better familiarize yourself with R, please complete the Introduction to R class in datacamp.com and the Intermediate R class in datacamp.com. There is also a class on R Markdown that you could do now.
+
+## Running Functions
+
+R contains several functions for producing (pseudo)-random variables. These are
+useful, for example, when using R to run simulation models. For example the
+function `runif` selects (by default) a set of random numbers between 0 and 1.
+It takes one required arugment named `n`, which indicates how many random numbers
+should be generated. In the code below, use the `runif` function to produce 100
+random numbers. Verify that each time you run the code a different set of
+numbers is produced:
+
+```{r}
+runif(100, min=0, max = 20)
+```
+
+The `runif` function also has two optional parameters. These are named `min` and
+`max`; they determine the lower and upper bounds from which random numbers should
+be generated. By default these are set to 0 and 1. In the code below, generate 100
+random numbers between 50 and 100. Here, select the number of random numbers
+*by position* (that is, without the code `n = 100`).
+
+```{r}
+
+```
+
+A common concern for new R users when running the code above is the meaning behind
+the numbers in square brackets to the left of the output. These are not part of the
+output itself. Instead, they provide a counter telling you which result number appears
+just to the left of right of it. The first line will always start with `[1]` because
+it always starts with the first result. The second line's number will depend on the
+width of your screen when you ran the code.
+
+## CDC COVID-19 Data
+
+Getting data into r in a format that works for you is one of the hardest parts of modeling. Anyone who studies anything data related will tell you that a ton of their time is spent finding or collecting data and cleaning the data into a useable form.
+
+Let's go to the [CDC website](https://data.cdc.gov/NCHS/Provisional-COVID-19-Death-Counts-by-Sex-Age-and-S/9bhg-hcku/data) and download one data set. First let's click visualize to see what this data set includes. Then click "Export" and choose "csv" and save this file somewhere. You probably should have a folder for this class and that would be a good place to put this, or create another file inside of there called "data".
+
+Now let's read this into R using the `read_csv()` and `file.path()` functions. Search for the help page for this function and see how you need to format the arguments. Let's read the data into an object called CDCData. Rename this file CDCProvional.csv and then upload this into your "data" folder. If you are working locally also, then create a "data" folder and put it there too.
+
+You can determine what folder you're working in with the `getwd()` function
+
+Then use the head() function to see the first 6 rows of the dataset.
+```{r, message=FALSE}
+CDCData <- read_csv(file.path("data", "CDCProvisional.csv"))
+head(CDCData)
+CDCData
+
+```
+
+Use the `str()` fuction to see the struction of the dataframe CDCData.
+
+```{r, message=FALSE}
+str(CDCData)
+
+```
+
+Looking at the data, try to answer the following questions.
+
+Question: How many rows are in the data set? **Answer**:
+
+Question: What does each row in this dataset represent. **Answer**:
+
+Create a question that you could use this dataset to help answer. **Answer**:
+
+
+

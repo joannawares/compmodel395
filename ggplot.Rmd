@@ -1,0 +1,317 @@
+---
+title: "Grammar of Graphics and ggplot2"
+author: "Timothy Thornton (tathornt@uw.edu)"
+date: '`r Sys.Date()`'
+output:
+  ioslides_presentation: default
+  beamer_presentation: default
+subtitle: 'Introduction to the ggplot2 package'
+---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 8,
+  fig.align = "center",
+  cache = FALSE
+) 
+```
+
+# Data visualization 
+
+## Data visualization is a critical component of \emph{Data Science} and is used in two main settings
+* visualization for *explaining*
+* visualization for *exploring*
+
+While common principals apply to both of the above, the aims of the two are different. 
+
+In this lecture we focus primarily on the second type of data visualization, and will introduce tools for exploratory data analysis in R.
+
+# ggplot2 R package  for Data Visualisation  
+
+## ggplot2 R package
+
+
+* ggplot is a function in the [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) package and is based on **The Grammar of Graphics** by Leland Wilkinson, and the [lattice](https://cran.r-project.org/web/packages/lattice/index.html) package
+* ggplot is designed to work in a  *layered fashion*, starting with a layer showing the raw data then adding layers of annotation and statistical summaries 
+* The idea is to make the nice features of [lattice](https://cran.r-project.org/web/packages/lattice/index.html) available in a simpler way, and also make it easier to add additional components to the plot (as *layers*, which we talk about later)
+
+
+## ggplot() function
+Let's look at an example **diamonds** data that comes with the [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) package.  But first, let's load the the package to our session using the **library()** function.  If you have not yet installed the ggplot2 package, you should do this first (you only have to do this once).   
+
+
+```{r echo=FALSE, warnings=FALSE}
+#install.packages("ggplot2")
+library(ggplot2)
+```
+
+Some information about the **diamonds** dataset :
+
+* ~54,000 round diamonds from http://www.diamondse.info/
+* Variables:
+	+ carat, colour, clarity, cut
+	+ total depth, table, depth, width, height
+	+ price 
+
+* A question of interest: What is the relationship between *carat* and *price*, and how does it depend on other factors?
+
+
+## Data on diamonds 
+
+Load the **diamonds** data set, get the dimensions, and look at the first few lines
+
+```{r, warnings=FALSE}
+data(diamonds, package="ggplot2")
+dim(diamonds)
+head(diamonds)
+```
+
+
+## Default R plot of price versus carat
+
+Using the *default settings* with the **plot()** function
+```{r}
+plot(price~carat, data=diamonds)
+```
+
+## Default ggplot price versus diamonds
+
+Using the *default settings* in **ggplot()**
+
+```{r}
+ggplot(diamonds, aes(x=carat,y=price)) + geom_point()
+```
+
+## A first glance
+
+* The *default* option in **ggplot** looks nicer!
+* **ggplot**'s syntax looks weird, especially if you're not very familiar with **lattice**
+* **ggplot()** may be slower than **plot()** that comes with base R
+* Note: It is possible to manipulate the **plot()** options to get a similar plot (and maybe even a better one), but that would require a lot of extra coding 
+* The ggplot *syntax* also makes plotting more  **structured** and  easier to update 
+
+# ggplot syntax
+
+## Using the package ggplot2
+
+Elements of a plot
+
+- data
+- aesthetics: mapping of variables to graphical elements
+- geom: type of plot structure to use
+- transformations: log scale, ...
+
+Additional components 
+
+- layers: multiple geoms, multiple data sets, annotation
+- facets: show subsets in different plots
+- themes: modifying style
+
+
+
+## ggplot syntax
+
+ggplot(diamonds, aes(x=carat,y=price)) + geom_point()
+
+ 
+The basic concept of a ggplot graphic is to combine different elements into *layers*. Each layer of a ggplotgraphic must have a data set and aesthetic mappings
+
+* **data**: for **ggplot()**, this must be a data frame!
+* **aes**: a mapping from the data to the plot; basically the x and y-axes
+
+## ggplot syntax
+
+ggplot(diamonds, aes(x=carat,y=price)) + geom_point()
+
+Layers can also have: 
+
+* a  geom, or a geometric object: defines the overall look of the layer -- is it bars, points, or lines?
+
+* a  stat, or a statistical summary: how should the data be summarized (e.g., binning for histograms, or smoothing to draw regression lines, etc).
+* a position: how to handle overlapping points 
+
+When not specified, the defaults are used.
+
+ 
+
+##  geom_boxplot
+We can use  **geom_boxplot** to create boxplots when one variable is continuous and the other is a factor. 
+
+```{r,}
+ggplot(diamonds, aes(x=cut,y=price)) + geom_boxplot()
+
+```
+
+
+## Changing the aesthetics
+
+You can control the aesthetics of each layer, e.g.  *colour*, *size*, *shape*, *alpha* (opacity) etc.
+
+```{r}
+ggplot(diamonds, aes(carat, price)) + geom_point(colour = "blue")
+```
+
+
+## A few more examples
+Changing the alpha level
+
+```{r}
+ggplot(diamonds, aes(x=carat,y=price)) + geom_point(alpha = 0.2)
+```
+
+
+## A few more examples
+
+Changing the point size
+
+```{r}
+ggplot(diamonds, aes(x=carat,y=price)) + geom_point(size = 0.2)
+
+```
+
+
+## A few more examples
+
+Changing the shape and the point size
+```{r}
+ggplot(diamonds, aes(x=carat,y=price)) + geom_point(shape = 2,size=0.4)
+```
+
+ 
+## Combining layers
+The real power of **ggplot** is its ability to combine layers
+```{r}
+ggplot(diamonds, aes(x=carat,y=price)) + geom_point(size = 0.2) +
+  geom_smooth()
+```
+
+
+## Tranfsormations
+
+In this case (and many other situations) a log transformation may allow for the relationships between variables to be clearer. Can use **coord_trans()**
+
+```{r}
+ggplot(diamonds, aes(carat, price)) + geom_point(size = 0.5) +
+coord_trans(x = "log10", y = "log10")
+```
+
+## Adding information for a third variable
+We can color by a *factor* variable (not that it's useful here!)
+
+```{r}
+ggplot(diamonds, aes(carat, price, colour=color)) + geom_point() + 
+    coord_trans(x = "log10", y = "log10")
+```
+
+## Adding information for a third variable
+Can also color by a  *continuous* variable (not really useful either!)
+```{r}
+ggplot(diamonds, aes(carat, price, colour=depth)) + geom_point() + 
+    coord_trans(x = "log10", y = "log10")
+```
+
+
+
+
+## Adding information for a third variable
+
+In some cases, it may be more useful to get separate plots for each category of the third variable, to understand conditional relationships 
+
+```{r}
+ggplot(diamonds, aes(carat, price)) + geom_point() +
+  facet_wrap(~color, ncol=4)
+```
+
+
+## Adding information for a third variable
+
+Alternatively, you can use **facet_grid**, which also allows more than 1 conditioning variable (tables of plots)
+```{r}
+ggplot(diamonds, aes(carat, price)) + geom_point() +
+ facet_grid(~color, labeller=label_both)
+```
+
+
+## A final note about syntax
+There are actually many ways to get the same plot! The following commands will produce the same plot:
+
+* ggplot(diamonds, aes(price, carat)) + geom_point()
+* ggplot() + geom_point(aes(price, carat), diamonds)
+* ggplot(diamonds) + geom_point(aes(price, carat))
+* ggplot(diamonds, aes(price)) + geom_point(aes(y = carat))
+* ggplot(diamonds, aes(y=carat)) + geom_point(aes(x = price))
+
+## A final note about syntax
+
+```{r}
+ggplot(diamonds) + geom_point(aes(price, carat))
+```
+
+# Additional plots available with ggplot
+
+
+## Cheat sheet
+We are covering only a few of the many plot types that can be greated with the **ggplot2** package
+
+For a more comprehensive view of ggplot2, take a look at the ggplot2 [Cheat sheet](http://www.rstudio.com/wp-content/uploads/2015/12/ggplot2-cheatsheet-2.0.pdf)
+
+
+## Boxplots
+
+We can summarize univariate distributions using **boxplots**
+
+```{r}
+ggplot(diamonds, aes(1, depth)) + geom_boxplot()
+```
+
+
+## Histograms
+However, a *histogram* would be a better choice here
+```{r}
+ggplot(diamonds, aes(depth)) + geom_histogram()
+```
+
+Notice the difference in the **aes** call; **boxplot** is really designed for multiple categories!
+
+## Histograms
+Tthe *default options* in **histogram** may not be sensible, and you often need to adjust the **binwidth** and **xlim**
+
+```{r}
+ggplot(diamonds, aes(depth)) + geom_histogram(binwidth=0.2) + xlim(56,67)
+```
+
+## Boxplots with multiple categories
+A better use of **boxplot** is when we want to compare distributions of a quantitative variable across categories of a factor variable, as previously discussed
+
+```{r}
+ggplot(diamonds, aes(cut, depth)) + geom_boxplot()
+```
+
+
+
+## Histograms with multiple categories
+We can also get multiple histograms, though we need to either display them separately (less useful when comparing)
+```{r}
+ggplot(diamonds, aes(depth)) + geom_histogram(binwidth = 0.2) + 
+    facet_wrap(~cut) + xlim(56, 67)
+```
+
+## Overlaying Histograms
+Or, you can overlay the historgrams 
+```{r}
+ggplot(diamonds, aes(depth, fill=cut)) + 
+    geom_histogram(binwidth=0.2) + xlim(56,67)
+```
+
+
+
+
+
+
+

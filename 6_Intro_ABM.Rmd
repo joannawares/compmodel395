@@ -1,0 +1,38 @@
+---
+title: "Agent-Based Models in NetLogo"
+author: "Joanna R. Wares"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggrepel)
+library(deSolve)
+
+
+theme_set(theme_minimal())
+options(pillar.min_character_chars = 15)
+```
+
+Our goal now is to learn to program an agent-based model in NetLogo. You can build agent-based models on a ton of other platforms. NetLogo was created for ease of use, making it easy to connect the graphical user interface (GUI) with the code that you create to determine what happens with the different agents in the different spaces.
+
+Dr. Erin Bodine has created a workshop to teach the basics of NetLogo. I have uploaded that here as ABMProject.pdf. I have also uploaded a file called SIR_Model_-_COVID19.nlogo that was created by Dr. Paul Smaldino. You will need to download this file and open it in NetLogo.
+
+Here's what I want you to do:
+
+#. Read through the ABMProject.pdf workshop
+#. Practice doing some of it in NetLogo so you get a feel for how NetLogo works. You do not need to turn this part in, but it will help you connect understand the NetLogo language.
+#. Open the SIR_Model_-_COVID19.nlogo file in NetLogo. Notice, there is the GUI in the front, and there is a tab for the code. 
+#. Create a file like Dr. Bodine's, but for the SIR NetLogo file. You don't have to reproduce the first page and half. Start with the creating variables section
+
+What your pdf should contain:
+
+#. An explanation of all of the code in the SIR file, in the format that Dr. Bodine uses to explain her rabbit model.
+#. A flow diagram of the Go procedure.
+#. An explanation of how to create the plots in the GUI.
+#. Finally, a few questions at the end of the document that you could answer using this model.
+
+To do this, you will need to look up what a lot of the syntax and wording of the NetLogo code. You can test it by changing the code in the NetLogo file and seeing if what you think should happen does happen when you change it. Documentation can be found here: [https://ccl.northwestern.edu/netlogo/docs/](https://ccl.northwestern.edu/netlogo/docs/) but it is also easier to just search a particular term with NetLogo next to it.

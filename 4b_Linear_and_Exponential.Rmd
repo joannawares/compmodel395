@@ -1,0 +1,278 @@
+---
+title: Linear and Exponential Models
+author: Joanna R. Wares
+date: "`r format(Sys.time(), '%d %B %Y')`" # be so careful with which quotes you are using
+output: html_document
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggrepel)
+
+theme_set(theme_minimal())
+options(pillar.min_character_chars = 15)
+```
+
+
+## Linear and Exponential Fitting
+
+We are going to work with the CDC's new cases data. I've downloaded the new cases data for you 
+with the first reported value (t=1) being March 1, and put it into a csv file called CDCNewCases.csv. 
+You can load it below. It's the same as the data we used in the ggplot exercise except I've changed the dates to times start at time=1 The full data can be found [here](https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html)
+
+Load the data. It will be a dataframe with attributes "Time" and "NewCases."
+You can see the first few rows of it by using the head() function. Use the read_csv() function to create the dataframe "cases"
+```{r cases-data, message=FALSE}
+```
+
+These are the number of new cases by date in the USA reported early on in the pandemic. 
+
+Now, in the code region below, produce a line plot with time on the x-axis
+and new cases on the y-axix like we did in the previous exercise.
+
+Dr. Arnold has some nice notes that we can use to help us found [here](https://statsmaths.github.io/stat289-f20/notes/02_graphics.html)
+
+```{r new-cases-plot, warning=FALSE}
+```
+
+
+Next we want to determine the total number of cases at each date. Add a new element to the data frame called TotalCases using the cumsum() function in r. 
+
+```{r total-cases, warning=FALSE}
+
+```
+
+Question: What does cumsum do? What do we end up with 
+
+**Answer**
+
+Now make a line plot of the total cases.
+ 
+## Total Cases
+
+```{r total-cases-plot, warning=FALSE}
+
+```
+
+What do you notice about the shape of the total cases curve early on? What type of function do you think would describe this data well?
+**Answer**:
+
+
+What do you notice about the shape of the total cases curve later on? What type of function do you think would describe this data well?
+**Answer**:
+
+
+## Later Data
+Let's look at the later data first. Create a plot of only the
+data after 25 days by using the filter() function. Make the line blue with size of 1.
+
+
+```{r later-data-plot, warning=FALSE}
+
+
+```
+
+Question: If you didn't specify it ahead, what time is your graph starting? (Hint, it's not at t=0. The 0 there is for the y-axis)
+
+**Answer**
+
+Question: How many people are we starting with here? How about ending with? Around what date is this?
+
+**Answer**:
+
+## Plot with the full x-axis
+
+Now use `xlim()` and plot from time=0 to 120 to see what the graph looks like.
+
+```{r later-data-plot2, warning=FALSE}
+
+
+```
+
+Question: What is your guess as to where this would intercept the y-axis?
+
+**Answer**
+
+Question: What's the approximate slope? What does this say about the number of new cases per day?
+
+**Answer**
+
+Question: Would you expect cases to continue to grow at this rate? Why or why not?
+
+
+## Linear Fit
+
+We will use the function lm() to find the best fitting line to this data. 
+The main idea is that you create your fit equation like `y~x` which reads as y in terms of x. And then tell lm what data set to use.
+
+You can learn about this in the
+Intro to Statistical Modeling course on datacamp. [Here's](https://www.theanalysisfactor.com/r-tutorial-2/) another short refresher.
+
+Perform a linear regression with the function lm() on the TotalCases data and find the best fitting line to the plot and assign this to new variable called linMod.
+
+Then, create a data frame of the coefficients using the function `coef` and `data.frame` and assign this to coeff_df. Print out the coefficients found by using the `coef()` function.
+
+
+
+```{r linear-plot, warning=FALSE}
+
+
+
+```
+
+Question: What was the best fit Intercept and Slope?
+
+**Answer**
+
+## Plotting the Fit
+
+Plot the data and the best fit line together. You can do this in a bunch of ways. One is to use `stat_smooth` another is to use geom_abline. Let's try geom_abline so we can really see what we are doing.
+
+
+Here is an example [https://www.rdocumentation.org/packages/ggplot2/versions/0.9.0/topics/geom_abline](https://www.rdocumentation.org/packages/ggplot2/versions/0.9.0/topics/geom_abline) The line "geom_abline(aes(intercept=a, slope=b), data=df)" is a good model of how to do this.
+```{r}
+```
+Question: Does this look like a good fit? 
+**Answer**:
+
+Next, print the summary of the fit using the `summary()` function. The Rsquared value can give you 
+information about the goodness of fit under certain assumptions. If Rsquared is close to 1,
+then you have a good fit, if it is closer to 0, then not so much. Look at the summary data and determine if this is a good fit.
+
+
+
+## Summary of the fit.
+```{r linear-summary1, warning=FALSE}
+
+```
+
+Question: What is the Rsquared value? Is this a good fit?
+**Answer**:
+
+
+Question: By approximately how many new cases is the total cases count growing each day from the fit model?
+**Answer**:
+
+Question: Compare the fit model and the real data at t=90. Is the fit model capturing the growth rate at this point in time?
+**Answer**
+
+## Something from the Internet
+
+We can do this [another way](https://sejohnston.com/2012/08/09/a-quick-and-easy-function-to-plot-lm-results-in-r/)
+by creating a function called ggplotRegression that pulls the important info out of the fit and then puts it in the title of the plot
+
+```{r linear-plot-2, warning=FALSE}
+
+
+```
+
+
+## Early Data - Exponential Fit
+
+We've heard a lot of people talking about how in a pandemic, growth of total cases is exponential. 
+It sure looks exponential at first. Let's find the best exponential curve to describe our early data set (t <= 25). 
+
+To do so, let's find the best fit line to the log of the early data set.
+
+First, let's plot the first 25 days of the total cases data. 
+
+
+
+```{r, warning=FALSE}
+
+
+
+```
+
+
+One way to fit an exponential is to fit a linear model to the log of the data. 
+
+Question: explain how this works. 
+
+**Answer**:
+
+
+Let's first plot the natural log of the data by using the log() function.
+
+```{r log-plot, warning=FALSE}
+
+
+
+```
+
+
+Question: What type of function does this natural log of the data look like? Why does this make sense?
+
+**Answer**
+
+Question: how does the first 5 days of data differ from the rest? 
+
+**Answer**
+
+Perform a linear regression with the function lm() on the natural log of the TotalCases data
+and find the best fitting line to the plot and assign this to logLinMod. Since the beginning of this data seems to be changing at a different rate than most of the data, let's start at t=5. To do this, for the data, use a subset of 
+the data frame cases, with the `filter` function. The goal is to find the rate of exponential growth. Then print the summary of the model using the `summary()` function.
+
+
+```{r loglinear-summary, warning=FALSE}
+
+
+```
+
+Question: Does this seem to be a good fit?
+
+**Answer**:
+
+Question: If we think about an exponential model, the amount of total cases is being multiplied
+by a constant each new day. What is the multiplier for this model?
+
+**Answer**:
+
+This would suggest that everyday, the number of cases will be multiplied by that much. So if we are in an exponential growth phase of the disease, this is something similar to the basic reproduction ratio that you will learn about later.
+
+
+
+
+## Plot an Exponential Fit
+
+Notice that I say "an" exponential fit instead of "the" exponential fit. There are different ways to produce an exponential fit with different assumptions about the deviations in the data. We are not going to get into that at the moment. Here's one nice explanation if you are interested [https://stackoverflow.com/questions/31851936/exponential-curve-fitting-in-r](https://stackoverflow.com/questions/31851936/exponential-curve-fitting-in-r)
+
+First let's plot the natural log of the data with its linear fit. Try the `stat_smooth()` function here if you want to try something new.
+```{r, warning=FALSE}
+
+
+```
+
+Now let's plot the exponential data with the fit transformed into its exponential version. You can create a dataframe of the exponential data using the function `fitted()` on the lm() model that you created
+
+```{r, warning=FALSE}
+
+
+```
+
+Now let's use the `predict` function to try to determine the number of people this model predicts will have been infected by day 100. Remember that you are using the log of the data here so the result will also be the log of the amount of people infected after 100 days.
+
+```{r}
+```
+
+Question: If we try to make predictions using this exponential model, how many cases would you expect
+100 days after the start of this data collection? How many were there in the actual dataset
+(which is probably a gross underestimate because testing was terrible, but still...)? What does this tell you?
+
+**Answer**
+
+Question: What are we assuming if we try to use the linear or exponential models to make predictions about the future?
+
+**Answer**
+
+## Epi Models
+
+
+So what we see is that regressions can tell us some information about the current data, but are not great for making predictions unless the dynamics of the system really follow the model chosen to create the regression. However, they can help us to fit parameters for more complicated models. For instance, knowing the exponential growth at the beginning of the data, might tell us something about the complete dynamics even though the exponential growth model is not good for making predictions by itself.
+
+You can see how trying to fit a pre-chosen function to your data can go really wrong for making predictions here [https://www.vox.com/2020/5/8/21250641/kevin-hassett-cubic-model-smoothing](https://www.vox.com/2020/5/8/21250641/kevin-hassett-cubic-model-smoothing)
+
+This is where other types of dynamical models are needed. These other types of models let us make more realistic assumptions about the underlying properties of the system. 
+
+We are going to focus on two types of predictive models in this class: Differential Equations and Agent-based Models.
+

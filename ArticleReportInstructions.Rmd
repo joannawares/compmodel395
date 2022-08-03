@@ -1,0 +1,59 @@
+---
+title: "Article Report Instructions"
+author: "Joanna R. Wares (adapted from Ami Radunskaya)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggrepel)
+#library(smodels)
+
+theme_set(theme_minimal())
+options(pillar.min_character_chars = 15)
+```
+
+## Overview
+
+Learning to communicate ideas clearly in writing is extremely important in the mathematical sciences. 
+Before you can write your own technical papers successfully, it is imperative that you learn
+to properly read the technical papers of others. For this presentation, you will follow specific guidelines to help
+you evaluate a technical paper involving a mathematical model and present important aspects of it to the class. You should 
+also asks questions of the class and get them involved in a discussion of the paper.
+
+Find a journal article which describes the mathematical modeling
+and solution of a some questions about a Sars-Cov-2 problem (hopefully of interest to you). A week or more before class,
+tell the class what article to read for your presentation so they have some familiarity with it.
+
+Present the following topics about the article you have chosen:
+
+#. What is the question being asked?
+#. What modeling approach is being used?
+#. What assumptions are made?
+#. How is the model formulated (how did they go from the question to the mathematics)?
+#. How is the problem solved (analysis, computation, verification)?
+#. What is the answer to the original question?
+#. Overall evaluation:
+    #. Is the article well written (clear, understandable, includes enough detail)?
+    #. Were the assumptions justified and reasonable?
+    #. Was the chosen model a good one (capturing salient features, numerically stable)?
+    #. How could the problem be extended in an interesting way?
+As you read and discuss the article with your partner, notice how the paper is organized (abstract,
+introduction, background, methods, conclusions, etc.). You'll start to see patterns as you read more
+of them, and you'll get a good idea of how your own original project should be presented.
+
+Guidelines for this presentation. You will be working in groups. Each of you should have an equal
+hand in creating the presentation and also in presenting it. If you are not synchronous, you should
+create a video presentation of you talking over your slides. Please make sure to introduce yourselves.
+Make sure to get others involved in the discussion if you are synchronous. If you are asynchronous, submit
+questions for the group. 
+
+## Suggested Articles if you are having trouble finding some
+#. Agent-based Model in University Environment: https://arxiv.org/pdf/2006.03175.pdf
+#. Testing interventions working paper from someone at the Richmond Fed: https://www.richmondfed.org/-/media/richmondfedorg/research/economists/bios/pdfs/hornstein_covid19_paper.pdf
+#. Modeling study about Masks (some of this is complicated but you should be reading for main ideas and techniques)
+[https://www.sciencedirect.com/science/article/pii/S2468042720300117](https://www.sciencedirect.com/science/article/pii/S2468042720300117)
+
